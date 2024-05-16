@@ -1,13 +1,8 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "registeration";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
-}
+
+require('./connection')
+
 $name = $city = $pincode = $email = $password = "";
 $errors = array();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
