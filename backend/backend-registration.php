@@ -1,10 +1,10 @@
 <?php
-
 require('../Connection/connection.php');
 // Initialize an empty array to store errors
 $errors = [];
 
-// Get the posted data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the posted data
 $name = $_POST['fname'] . " " . $_POST['lname'];
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -31,16 +31,14 @@ if (empty($errors)) {
         $stmt = $conn->prepare("INSERT INTO users (name, city, email, password) VALUES (?,?,?,?)");
         $stmt->bind_param("ssss", $name, $city, $email, $hashed_password);
         $stmt->execute();
-        $success_message = "Registration successful!";
+        $_SESSION['success_msg'] = "Registration successful!";
+        $_SESSION['username'] = $name;
+        $_SESSION['email'] = $email;
     } catch (Exception $e) {
         $errors[] = "Error: ". $e->getMessage();
     }
 }
+}
 
 // Close the database connection
 $conn->close();
-
-// Include the view file
-include('../Views/register.php');
-
-?>
